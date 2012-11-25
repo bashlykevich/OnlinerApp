@@ -1,0 +1,129 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="OnlinerApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    Loaded="PhoneApplicationPage_Loaded"
+    shell:SystemTray.IsVisible="False">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+ 
+        <!--Panorama control-->
+        <controls:Panorama Title="onliner.by"
+                           Background="Transparent">
+            <!--<controls:Panorama.Background>
+                <ImageBrush ImageSource="Images\background2.png"/>
+            </controls:Panorama.Background> -->
+
+            <!--Panorama item one-->
+            <controls:PanoramaItem Header="Техника">
+                <ListBox x:Name="listboxT" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />                                    
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />                                    
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
+                                <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
+                                <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
+                                <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>                                
+                                </Grid>                            
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </controls:PanoramaItem>
+            <controls:PanoramaItem Header="Авто">
+                <ListBox x:Name="listboxA" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
+                                <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
+                                <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
+                                <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </controls:PanoramaItem>
+            <controls:PanoramaItem Header="Деньги">
+                <ListBox x:Name="listboxD" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
+                                <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
+                                <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
+                                <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </controls:PanoramaItem>
+            <controls:PanoramaItem Header="Недвижимость">
+                <ListBox x:Name="listboxN" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
+                                <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
+                                <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
+                                <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </controls:PanoramaItem>
+
+        </controls:Panorama>
+    </Grid>
+    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="False" IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
+                                            x:Name="btnRefresh"
+                                            Click="btnRefresh_Click"
+                                            Text="Обновить"/>            
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Обновить"/>
+                <shell:ApplicationBarMenuItem Text="Настройки"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>
