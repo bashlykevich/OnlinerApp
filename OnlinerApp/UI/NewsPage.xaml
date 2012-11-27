@@ -35,9 +35,14 @@
  
     
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+        <shell:ApplicationBar IsVisible="True"
+                              Mode="Minimized"
+                              IsMenuEnabled="True">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Назад"/>                
+                <shell:ApplicationBarMenuItem 
+                    x:Name="barBtnBack"
+                    Click="barBtnBack_Click"
+                    Text="Назад"/>                
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

@@ -8,7 +8,7 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -18,7 +18,7 @@
     shell:SystemTray.IsVisible="False">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -127,13 +127,29 @@
     <phone:PhoneApplicationPage.ApplicationBar>
 
 
-        <shell:ApplicationBar IsVisible="False" IsMenuEnabled="False">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False"
+                              Mode="Minimized">
             <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
-                                            x:Name="btnRefresh"                                            
-                                            Text="Обновить"/>
+                                            x:Name="btnBarIconRefresh"                                            
+                                            Click="btnBarIconRefresh_Click"
+                                            Text="обновить"/>
+            <shell:ApplicationBarIconButton IconUri="Images\appbar.favs.rest.png" 
+                                            x:Name="btnBarIconEval"    
+                                            Click="btnBarEval_Click"
+                                            Text="оценить"/>
+            <shell:ApplicationBarIconButton IconUri="Images\appbar.questionmark.rest.png" 
+                                            x:Name="btnBarIconAbout" 
+                                            Click="btnBarAbout_Click"
+                                            Text="о программе"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Обновить"/>
-                <shell:ApplicationBarMenuItem Text="Настройки"/>
+                <shell:ApplicationBarMenuItem 
+                    Click="btnBarIconRefresh_Click"
+                    x:Name="btnBarRefresh"
+                    Text="Обновить"/>
+                <shell:ApplicationBarMenuItem Text="Оценить приложение" x:Name="btnBarEval" 
+                                              Click="btnBarEval_Click"/>
+                <shell:ApplicationBarMenuItem Text="О программе" x:Name="btnBarAbout"
+                                              Click="btnBarAbout_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

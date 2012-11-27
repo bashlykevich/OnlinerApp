@@ -9,9 +9,9 @@ using System.Resources;
 [assembly: AssemblyTitle("OnlinerApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Hairahana Studio")]
 [assembly: AssemblyProduct("OnlinerApp")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("Copyright © Sergey Bashlykevich 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

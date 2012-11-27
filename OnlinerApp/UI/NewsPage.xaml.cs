@@ -87,7 +87,10 @@ namespace OnlinerApp.UI
                 }
                 htmlnews += "</body></html>";
 
-                htmlnews = DeleteVideo(htmlnews);
+                while (htmlnews.Contains("<iframe"))
+                {
+                    htmlnews = DeleteVideo(htmlnews);
+                }
                 spNews.NavigateToString(ConvertExtendedAscii(htmlnews));
                 
                 // stop progress bar
@@ -109,7 +112,7 @@ namespace OnlinerApp.UI
                 return src;
             string p2 = src.Substring(start+9);
 
-            res = p1 + "Смотрите видео на сайте." + p2;
+            res = p1 + "[Смотрите видео на сайте]" + p2;
             //
             return res;
         }
@@ -157,6 +160,11 @@ namespace OnlinerApp.UI
                 return "";
             res = res.Substring(0, length);
             return res;
+        }
+
+        private void barBtnBack_Click(object sender, EventArgs e)
+        {
+            this.NavigationService.GoBack();
         }
     }
 }

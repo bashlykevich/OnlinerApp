@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Phone.Controls;
 using OnlinerApp.Rss;
+using Microsoft.Phone.Tasks;
 
 namespace OnlinerApp
 {
@@ -98,6 +99,30 @@ namespace OnlinerApp
         {
             (App.Current as App).News = (((Grid)sender).DataContext as RssItem);
             ReadNews();
+        }
+
+        private void btnBarIconRefresh_Click(object sender, EventArgs e)
+        {
+            StartLoading();
+        }
+
+        private void btnBarEval_Click(object sender, EventArgs e)
+        {
+            RateApp();
+        }
+
+        private void btnBarAbout_Click(object sender, EventArgs e)
+        {
+            GotoAbout();
+        }
+        void RateApp()
+        {
+            MarketplaceReviewTask marketplaceReviewTask = new MarketplaceReviewTask();
+            marketplaceReviewTask.Show();
+        }
+        void GotoAbout()
+        {
+            NavigationService.Navigate(new Uri(@"/UI/AboutPage.xaml", UriKind.Relative));
         }
     }
 }
