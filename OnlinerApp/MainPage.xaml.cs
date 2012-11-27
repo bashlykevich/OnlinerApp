@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using Microsoft.Phone.Controls;
 using OnlinerApp.Rss;
 
@@ -7,18 +9,30 @@ namespace OnlinerApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        public bool ShowProgress
+        {
+            get { return (bool)GetValue(ShowProgressProperty); }
+            set { SetValue(ShowProgressProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ShowProgress.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowProgressProperty =
+            DependencyProperty.Register("ShowProgress", typeof(bool), typeof(MainPage), new PropertyMetadata(false));
+
         // Constructor
         public MainPage()
         {
             InitializeComponent();
         }
 
-        void Refresh()
+        private void Refresh()
         {
             RefreshT();
             RefreshA();
             RefreshD();
             RefreshN();
+
+            // stop progress bar                       
         }
 
         private void RefreshT()
@@ -27,8 +41,9 @@ namespace OnlinerApp
             RssService.GetRssItems(WindowsPhoneBlogPosts,
                                     (items) => { listboxT.ItemsSource = items; },
                                     (exception) => { MessageBox.Show(exception.Message); },
-                                    null);
+                                    () => {ShowProgress = false;});
         }
+
         private void RefreshA()
         {
             string WindowsPhoneBlogPosts = "http://auto.onliner.by/feed";
@@ -37,6 +52,7 @@ namespace OnlinerApp
                                     (exception) => { MessageBox.Show(exception.Message); },
                                     null);
         }
+
         private void RefreshD()
         {
             string WindowsPhoneBlogPosts = "http://dengi.onliner.by/feed";
@@ -45,6 +61,7 @@ namespace OnlinerApp
                                     (exception) => { MessageBox.Show(exception.Message); },
                                     null);
         }
+
         private void RefreshN()
         {
             string WindowsPhoneBlogPosts = "http://realt.onliner.by/feed";
@@ -52,16 +69,35 @@ namespace OnlinerApp
                                     (items) => { listboxN.ItemsSource = items; },
                                     (exception) => { MessageBox.Show(exception.Message); },
                                     null);
-        }
+        }    
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private void StartLoading()
         {
-            Refresh();
+            ShowProgress = true;
+
+            //spNews.Visibility = System.Windows.Visibility.Collapsed;
+
+            ThreadPool.QueueUserWorkItem(
+                (o) =>
+                {
+                    this.Dispatcher.BeginInvoke(Refresh);
+                });
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Refresh();
+            StartLoading();
+        }
+
+        private void ReadNews()
+        {
+            NavigationService.Navigate(new Uri(@"/UI/NewsPage.xaml", UriKind.Relative));
+        }
+
+        private void grTech_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            (App.Current as App).News = (((Grid)sender).DataContext as RssItem);
+            ReadNews();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿<phone:PhoneApplicationPage 
     x:Class="OnlinerApp.MainPage"
+    xmlns:helpers="clr-namespace:WindowsPhone.Helpers"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -12,6 +13,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
+    x:Name="mainPage"
     Loaded="PhoneApplicationPage_Loaded"
     shell:SystemTray.IsVisible="False">
 
@@ -25,96 +27,109 @@
                    HorizontalAlignment="Right"
                    Margin="20,20,20,0"
                    FontSize="50"/>
-        <controls:Pivot Grid.Row="1"
+        <controls:Pivot Name="grMain"  
+                        Grid.Row="1"
             Background="Transparent">
             <controls:PivotItem Header="техника">
                 <ListBox x:Name="listboxT">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,0,15">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
-                                    <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
-                                    <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
-                                    <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>             
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Name="grTech" 
+                                      Tap="grTech_Tap"
+                                      Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
+                                <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
+                                <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
+                                <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PivotItem>
             <controls:PivotItem Header="авто">
                 <ListBox x:Name="listboxA">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,0,15">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Tap="grTech_Tap"
+                                  Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
                                 <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
                                 <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
                                 <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
                             </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>            
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PivotItem>
             <controls:PivotItem Header="деньги">
-                    <ListBox x:Name="listboxD">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,0,15">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                <ListBox x:Name="listboxD">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Tap="grTech_Tap"
+                                  Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
                                 <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
                                 <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
                                 <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
                             </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>                
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PivotItem>
             <controls:PivotItem Header="недвижимость">
-                    <ListBox x:Name="listboxN" Grid.Row="1">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,0,15">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
+                <ListBox x:Name="listboxN" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Tap="grTech_Tap"
+                                  Margin="0,0,0,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0" Margin="2,2,2,2" TextWrapping="Wrap" FontSize="24" Text="{Binding Title}" FontWeight="Bold"/>
                                 <Image     Grid.Row="1" Margin="1,1,1,1" Source="{Binding ImageUrl}" Stretch="Fill"/>
                                 <TextBlock Grid.Row="2" Margin="1,1,1,1" TextWrapping="Wrap" Text="{Binding PlainSummary}" />
                                 <TextBlock Grid.Row="3" Margin="2,2,2,5" Text="{Binding PublishedDate}" FontStyle="Italic" FontSize="16"/>
                             </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>                
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PivotItem>
         </controls:Pivot>
-    </Grid>
 
+        <helpers:ProgressBarWithText
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Stretch"
+                        Text="Загрузка"
+                        ShowProgress="{Binding ElementName=mainPage, Path=ShowProgress}" />
+    </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
+
+
         <shell:ApplicationBar IsVisible="False" IsMenuEnabled="False">
             <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
-                                            x:Name="btnRefresh"
-                                            Click="btnRefresh_Click"
+                                            x:Name="btnRefresh"                                            
                                             Text="Обновить"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Обновить"/>
