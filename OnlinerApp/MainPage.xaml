@@ -8,17 +8,16 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="728" 
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    mc:Ignorable="d" FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     x:Name="mainPage"
     Loaded="PhoneApplicationPage_Loaded"
-    shell:SystemTray.IsVisible="False">
+    shell:SystemTray.IsVisible="False" d:DesignHeight="728" d:DesignWidth="480">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Black">
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -139,8 +138,8 @@
                                             Text="оценить"/>
             <shell:ApplicationBarIconButton IconUri="Images\appbar.questionmark.rest.png" 
                                             x:Name="btnBarIconAbout" 
-                                            Click="btnBarAbout_Click"
-                                            Text="о программе"/>
+                                            Click="btnBarAbout_Click"                                                                                       
+                                            Text="справка"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem 
                     Click="btnBarIconRefresh_Click"
@@ -149,6 +148,7 @@
                 <shell:ApplicationBarMenuItem Text="Оценить приложение" x:Name="btnBarEval" 
                                               Click="btnBarEval_Click"/>
                 <shell:ApplicationBarMenuItem Text="О программе" x:Name="btnBarAbout"
+                                              
                                               Click="btnBarAbout_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>

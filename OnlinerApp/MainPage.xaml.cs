@@ -124,5 +124,9 @@ namespace OnlinerApp
         {
             NavigationService.Navigate(new Uri(@"/UI/AboutPage.xaml", UriKind.Relative));
         }
+        void DownloadigFinished()
+        {
+            ShowProgress = false;
+        }
     }
 }
