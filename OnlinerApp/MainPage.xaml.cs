@@ -128,5 +128,10 @@ namespace OnlinerApp
         {
             ShowProgress = false;
         }
+
+        private void btnBarIconSettings_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

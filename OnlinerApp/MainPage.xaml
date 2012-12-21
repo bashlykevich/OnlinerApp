@@ -132,6 +132,10 @@
                                             x:Name="btnBarIconRefresh"                                            
                                             Click="btnBarIconRefresh_Click"
                                             Text="обновить"/>
+            <shell:ApplicationBarIconButton IconUri="Images\appbar.feature.settings.rest.png" 
+                                            x:Name="btnBarIconSettings"                                            
+                                            Click="btnBarIconSettings_Click"
+                                            Text="настройки"/>
             <shell:ApplicationBarIconButton IconUri="Images\appbar.favs.rest.png" 
                                             x:Name="btnBarIconEval"    
                                             Click="btnBarEval_Click"

@@ -55,49 +55,25 @@ namespace OnlinerApp.UI
 
         private void QuestionsDownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
+            #region if failed to load
             if (e.Error != null)
             {
                 MessageBox.Show("Ошибка подключения к базе вопросов. Проверьте соединение с интернетом.");
                 NavigationService.Navigate(new Uri(@"/MainPage.xaml", UriKind.Relative));
                 return;
             }
+            #endregion
 
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(e.Result);
-            HtmlNode news = doc.DocumentNode.SelectSingleNode("//div[@class='b-posts-1-item__text']");
-            
-            if (news != null)
-            {
-                string htmlnews = "<html><head>";
-                htmlnews += "<meta charset=\"utf-8\"/>";
+            string htmlnews = FormNewsPage(doc);
+            string htmlnewsAscii = ConvertExtendedAscii(htmlnews);
+            spNews.NavigateToString(htmlnewsAscii);
 
-                //htmlnews += "<meta name=\"viewport\" content=\"width=device-width\" />";
-                htmlnews += "</head><body>";
-                htmlnews += "<h2>" + rssItem.Title + "</h2>";
-                htmlnews += "<img src=\"" + rssItem.ImageUrl + "\" width=\"" + 800 + "\" /><br/>";
+            // stop progress bar
+            ShowProgress = false;
+            spNews.Visibility = System.Windows.Visibility.Visible;
 
-                htmlnews += news.InnerHtml;
-
-                HtmlNode footer = doc.DocumentNode.SelectSingleNode("//footer[@class='b-inner-pages-footer-1']");
-                if (footer != null)
-                {
-                    htmlnews += "<p><i>";
-                    htmlnews += footer.InnerText;
-                    htmlnews += "</i></p>";
-                }
-                htmlnews += "</body></html>";
-
-                while (htmlnews.Contains("<iframe"))
-                {
-                    htmlnews = DeleteVideo(htmlnews);
-                }
-                spNews.NavigateToString(ConvertExtendedAscii(htmlnews));
-                
-                // stop progress bar
-                ShowProgress = false;
-                spNews.Visibility = System.Windows.Visibility.Visible;
-
-            }
         }
         string DeleteVideo(string src)
         {
@@ -110,7 +86,7 @@ namespace OnlinerApp.UI
             start = src.IndexOf("</iframe>");
             if (start < 0)
                 return src;
-            string p2 = src.Substring(start+9);
+            string p2 = src.Substring(start + 9);
 
             res = p1 + "[Смотрите видео на сайте]" + p2;
             //
@@ -161,7 +137,74 @@ namespace OnlinerApp.UI
             res = res.Substring(0, length);
             return res;
         }
+        string FormNewsPage(HtmlDocument doc)
+        {
+            string htmlnews = "<html><head>";
+            htmlnews += "<meta charset=\"utf-8\"/>";
+            htmlnews += "</head><body>";
 
+            HtmlNode news = doc.DocumentNode.SelectSingleNode("//div[@class='b-posts-1-item__text']");            
+
+            if (news != null)
+            {
+                #region news
+                htmlnews += "<h2>" + rssItem.Title + "</h2>";
+                htmlnews += "<img src=\"" + rssItem.ImageUrl + "\" width=\"" + 800 + "\" /><br/>";
+                htmlnews += news.InnerHtml;
+                #endregion
+
+                #region footer
+                HtmlNode footer = doc.DocumentNode.SelectSingleNode("//footer[@class='b-inner-pages-footer-1']");
+                if (footer != null)
+                {
+                    htmlnews += "<p><i>";
+                    htmlnews += footer.InnerText;
+                    htmlnews += "</i></p>";
+                }
+                #endregion
+
+                #region comments
+                // if(AppSettings["CommentsState"] = "on")
+                /*HtmlNode comments = doc.DocumentNode.SelectSingleNode("//ul[@class='b-comments-1__list']");
+                htmlnews += "<br/><h3>Комментарии</h3>";
+                htmlnews += comments.OuterHtml;*/
+                HtmlNodeCollection comments = doc.DocumentNode.SelectNodes("//li[@class='b-comments-1__list-item commentListItem']");
+                htmlnews += "<br/><h2>Комментарии</h2>";
+                htmlnews += "<ul>";
+                foreach(HtmlNode comment in comments)
+                {
+                    string author = comment.SelectSingleNode("*/strong[@class='author']/a").InnerText;
+                    string time = comment.SelectSingleNode("*/span[@class='date']").InnerText;
+                    string messageHtml = comment.SelectSingleNode("div[@class='comment-content']").InnerHtml;
+                    htmlnews += "<li>";
+                    htmlnews += "<div>";
+                    htmlnews += "<strong>";
+                    htmlnews += author;
+                    htmlnews += "</strong>&emsp;";
+                    htmlnews += time;
+                    htmlnews += "<div>";
+                    htmlnews += messageHtml;
+                    htmlnews += "</div>";
+                    htmlnews += "</div>";
+                    htmlnews += "</li>";
+                }
+                htmlnews += "</ul>";
+                #endregion
+
+                #region embedded video processing
+                while (htmlnews.Contains("<iframe"))
+                {
+                    htmlnews = DeleteVideo(htmlnews);
+                }
+                #endregion
+            }
+            else
+            {
+                htmlnews += "Не удалось загрузить страницу.";
+            }
+            htmlnews += "</body></html>";
+            return htmlnews;
+        }
         private void barBtnBack_Click(object sender, EventArgs e)
         {
             this.NavigationService.GoBack();
