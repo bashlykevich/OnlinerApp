@@ -5,6 +5,7 @@ using HtmlAgilityPack;
 using Microsoft.Phone.Controls;
 using OnlinerApp.Rss;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace OnlinerApp.UI
 {
@@ -75,6 +76,32 @@ namespace OnlinerApp.UI
             spNews.Visibility = System.Windows.Visibility.Visible;
 
         }
+        string ConvertVideoToUrl(string src)
+        {
+            string res;
+            int frameStart = src.IndexOf("<iframe");
+            if (frameStart < 0)
+                return src;
+            string p1 = src.Substring(0, frameStart);
+
+            int frameEnd = src.IndexOf("</iframe>");
+            if (frameEnd < 0)
+                return src;
+            string p2 = src.Substring(frameEnd + 9);
+
+            string iframe = src.Substring(frameStart, frameEnd - frameStart);
+
+            Regex Youtube = new Regex("youtu(?:\\.be|be\\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)");
+            Match youtubeMatch = Youtube.Match(iframe);
+            string videoID = string.Empty;
+
+            if (youtubeMatch.Success)
+
+                videoID = youtubeMatch.Groups[1].Value;
+            res = p1 + "<a href=\"vnd.youtube:" + videoID + "?vndapp=youtube_mobile&vndclient=mv-google&vndel=watch\">[ Смотреть видео ]</a>" + p2;
+
+            return res;
+        }
         string DeleteVideo(string src)
         {
             string res;
@@ -143,7 +170,7 @@ namespace OnlinerApp.UI
             htmlnews += "<meta charset=\"utf-8\"/>";
             htmlnews += "</head><body>";
 
-            HtmlNode news = doc.DocumentNode.SelectSingleNode("//div[@class='b-posts-1-item__text']");            
+            HtmlNode news = doc.DocumentNode.SelectSingleNode("//div[@class='b-posts-1-item__text']");
 
             if (news != null)
             {
@@ -164,38 +191,36 @@ namespace OnlinerApp.UI
                 #endregion
 
                 #region comments
-                // if(AppSettings["CommentsState"] = "on")
-                /*HtmlNode comments = doc.DocumentNode.SelectSingleNode("//ul[@class='b-comments-1__list']");
-                htmlnews += "<br/><h3>Комментарии</h3>";
-                htmlnews += comments.OuterHtml;*/
-                HtmlNodeCollection comments = doc.DocumentNode.SelectNodes("//li[@class='b-comments-1__list-item commentListItem']");
-                htmlnews += "<br/><h2>Комментарии</h2>";
-                htmlnews += "<ul>";
-                foreach(HtmlNode comment in comments)
+                bool CommentsOn = true;
+                AppSettings.TryGetSetting<bool>("CommentsOn", out CommentsOn);
+                if (CommentsOn)
                 {
-                    string author = comment.SelectSingleNode("*/strong[@class='author']/a").InnerText;
-                    string time = comment.SelectSingleNode("*/span[@class='date']").InnerText;
-                    string messageHtml = comment.SelectSingleNode("div[@class='comment-content']").InnerHtml;
-                    htmlnews += "<li>";
-                    htmlnews += "<div>";
-                    htmlnews += "<strong>";
-                    htmlnews += author;
-                    htmlnews += "</strong>&emsp;";
-                    htmlnews += time;
-                    htmlnews += "<div>";
-                    htmlnews += messageHtml;
-                    htmlnews += "</div>";
-                    htmlnews += "</div>";
-                    htmlnews += "</li>";
+                    HtmlNodeCollection comments = doc.DocumentNode.SelectNodes("//li[@class='b-comments-1__list-item commentListItem']");
+                    htmlnews += "<br/><h2>Комментарии</h2>";
+                    htmlnews += "<ul>";
+                    foreach (HtmlNode comment in comments)
+                    {
+                        string author = comment.SelectSingleNode("*/strong[@class='author']/a").InnerText;
+                        string time = comment.SelectSingleNode("*/span[@class='date']").InnerText;
+                        string messageHtml = comment.SelectSingleNode("div[@class='comment-content']").InnerHtml;
+                        htmlnews += "<li>";
+                        htmlnews += "<div>";
+                        htmlnews += "<strong>";
+                        htmlnews += author;
+                        htmlnews += "</strong>&emsp;";
+                        htmlnews += time;
+                        htmlnews += "<div>";
+                        htmlnews += messageHtml;
+                        htmlnews += "</div>";
+                        htmlnews += "</div>";
+                        htmlnews += "</li>";
+                    }
+                    htmlnews += "</ul>";
                 }
-                htmlnews += "</ul>";
                 #endregion
 
                 #region embedded video processing
-                while (htmlnews.Contains("<iframe"))
-                {
-                    htmlnews = DeleteVideo(htmlnews);
-                }
+                htmlnews = ProcessVideoLinks(htmlnews);
                 #endregion
             }
             else
@@ -203,6 +228,14 @@ namespace OnlinerApp.UI
                 htmlnews += "Не удалось загрузить страницу.";
             }
             htmlnews += "</body></html>";
+            return htmlnews;
+        }
+        string ProcessVideoLinks(string htmlnews)
+        {
+            while (htmlnews.Contains("<iframe"))
+            {
+                htmlnews = ConvertVideoToUrl(htmlnews);
+            }
             return htmlnews;
         }
         private void barBtnBack_Click(object sender, EventArgs e)

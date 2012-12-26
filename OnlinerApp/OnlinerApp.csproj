@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="System.ServiceModel.Syndication">
       <HintPath>C:\Program Files\Microsoft SDKs\Silverlight\v3.0\Libraries\Client\System.ServiceModel.Syndication.dll</HintPath>
@@ -71,6 +72,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\ProgressBarWithText.xaml.cs">
       <DependentUpon>ProgressBarWithText.xaml</DependentUpon>
@@ -87,6 +89,9 @@
     </Compile>
     <Compile Include="UI\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +115,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -127,7 +136,7 @@
     <Content Include="Images\appbar.favs.rest.png" />
     <Content Include="Images\appbar.questionmark.rest.png" />
     <Content Include="todo.txt" />
-    <Resource Include="Images\appbar.feature.settings.rest.png" />
+    <Content Include="Images\appbar.feature.settings.rest.png" />
     <Content Include="Images\appbar.refresh.rest.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
