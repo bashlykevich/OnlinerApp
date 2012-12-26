@@ -29,23 +29,7 @@
         <controls:Pivot Name="grMain"  
                         Visibility="Collapsed"
                         Grid.Row="1"
-            Background="Transparent">
-            <controls:PivotItem Header="техника">
-                <ListBox x:Name="listboxT" SelectionChanged="listbox_SelectionChanged">
-                </ListBox>
-            </controls:PivotItem>
-            <controls:PivotItem Header="авто">
-                <ListBox x:Name="listboxA" SelectionChanged="listbox_SelectionChanged" >                    
-                </ListBox>
-            </controls:PivotItem>
-            <controls:PivotItem Header="деньги">
-                <ListBox x:Name="listboxD" SelectionChanged="listbox_SelectionChanged">                    
-                </ListBox>
-            </controls:PivotItem>
-            <controls:PivotItem Header="недвижимость">
-                <ListBox x:Name="listboxN" SelectionChanged="listbox_SelectionChanged">                  
-                </ListBox>
-            </controls:PivotItem>
+            Background="Transparent">            
         </controls:Pivot>
 
         <helpers:ProgressBarWithText

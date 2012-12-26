@@ -2,33 +2,21 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
+using OnlinerApp.Onliner;
 using OnlinerApp.Rss;
-using System.IO;
-using System.Xml;
-using System.Windows.Markup;
-using System.Collections.Generic;
-using System.Windows.Media;
 
 namespace OnlinerApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        bool PicsInStripeOn
-        {
-            get
-            {
-                bool PicsInStrip = true;
-                AppSettings.TryGetSetting<bool>("PicsInStripOn", out PicsInStrip);
-                return PicsInStrip;
-            }
-        }
         public bool ShowProgress
         {
             get { return (bool)GetValue(ShowProgressProperty); }
-            set 
-            { 
+            set
+            {
                 SetValue(ShowProgressProperty, value);
                 if (value)
                 {
@@ -53,60 +41,34 @@ namespace OnlinerApp
 
         private void Refresh()
         {
-            RefreshT();
-            RefreshA();
-            RefreshD();
-            RefreshN();
+            grMain.Items.Clear();
+            foreach (OnlinerSection section in OnlinerSettings.Sections)
+            {
+                if (section.IsEnabled)
+                {
+                    PivotItem pi = new PivotItem();
+                    pi.Header = section.Header;
 
-            // stop progress bar
-        }
+                    ListBox lb = new ListBox();
+                    lb.ItemTemplate = GenerateNewsTemplate();
+                    lb.SelectionChanged += new SelectionChangedEventHandler(listbox_SelectionChanged);
 
-        private void RefreshT()
-        {
-            listboxT.ItemTemplate = GenerateNewsTemplate();            
-            string WindowsPhoneBlogPosts = "http://tech.onliner.by/feed";
-            RssService.GetRssItems(WindowsPhoneBlogPosts,
-                                    (items) => { listboxT.ItemsSource = items; },
+                    pi.Content = lb;
+                    grMain.Items.Add(pi);
+
+                    RssService.GetRssItems(section.FeedUrl,
+                                    (items) => { lb.ItemsSource = items; },
                                     (exception) => { MessageBox.Show(exception.Message); },
-                                    () => { ShowProgress = false; });            
-        }
-
-        private void RefreshA()
-        {
-            listboxA.ItemTemplate = GenerateNewsTemplate();
-            string WindowsPhoneBlogPosts = "http://auto.onliner.by/feed";
-            RssService.GetRssItems(WindowsPhoneBlogPosts,
-                                    (items) => { listboxA.ItemsSource = items; },
-                                    (exception) => { MessageBox.Show(exception.Message); },
-                                    null);
-        }
-
-        private void RefreshD()
-        {
-            listboxD.ItemTemplate = GenerateNewsTemplate();
-            string WindowsPhoneBlogPosts = "http://dengi.onliner.by/feed";
-            RssService.GetRssItems(WindowsPhoneBlogPosts,
-                                    (items) => { listboxD.ItemsSource = items; },
-                                    (exception) => { MessageBox.Show(exception.Message); },
-                                    null);
-        }
-
-        private void RefreshN()
-        {
-            listboxN.ItemTemplate = GenerateNewsTemplate();
-            string WindowsPhoneBlogPosts = "http://realt.onliner.by/feed";
-            RssService.GetRssItems(WindowsPhoneBlogPosts,
-                                    (items) => { listboxN.ItemsSource = items; },
-                                    (exception) => { MessageBox.Show(exception.Message); },
-                                    null);
+                                    () => { ShowProgress = false; });
+                }
+            }
+            if (grMain.Items.Count == 0)
+                ShowProgress = false;
         }
 
         private void StartLoading()
         {
             ShowProgress = true;
-
-            //spNews.Visibility = System.Windows.Visibility.Collapsed;
-
             ThreadPool.QueueUserWorkItem(
                 (o) =>
                 {
@@ -119,7 +81,7 @@ namespace OnlinerApp
             StartLoading();
         }
 
-        private void ReadNews()
+        private void NavigateToNewsPage()
         {
             NavigationService.Navigate(new Uri(@"/UI/NewsPage.xaml", UriKind.Relative));
         }
@@ -153,12 +115,7 @@ namespace OnlinerApp
         private void GotoSettings()
         {
             NavigationService.Navigate(new Uri(@"/UI/SettingsPage.xaml", UriKind.Relative));
-        }
-
-        private void DownloadigFinished()
-        {
-            ShowProgress = false;
-        }
+        }  
 
         private void btnBarIconSettings_Click(object sender, EventArgs e)
         {
@@ -166,33 +123,34 @@ namespace OnlinerApp
         }
 
         private DataTemplate GenerateNewsTemplate()
-        {          
+        {
             string xaml = "";
             xaml += @"<DataTemplate "
+
                 //+ @"x:Class=""OnlinerApp.MainPage"" "
                 + @"xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" "
                 + @"xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" >";
             xaml += @"<Grid >";
-            
+
             xaml += @"<Grid.RowDefinitions>";
             xaml += @"<RowDefinition Height=""Auto"" />";
-            if (this.PicsInStripeOn)
-                xaml += @"<RowDefinition Height=""Auto"" />";            
+            if (OnlinerSettings.PicsInStripOn)
+                xaml += @"<RowDefinition Height=""Auto"" />";
             xaml += @"<RowDefinition Height=""Auto"" />";
             xaml += @"<RowDefinition Height=""Auto"" />";
             xaml += @"</Grid.RowDefinitions>";
 
             int rowIndex = 0;
             xaml += @"<TextBlock Grid.Row=""0"" Margin=""2"" TextWrapping=""Wrap"" Text=""{Binding Title}"" FontWeight=""Bold"" FontSize=""24"" />";
-            if (this.PicsInStripeOn)
+            if (OnlinerSettings.PicsInStripOn)
                 xaml += @"<Image Grid.Row=""" + (++rowIndex) + @""" Margin=""1"" Source=""{Binding ImageUrl}"" Stretch=""Fill""/>";
             xaml += @"<TextBlock Grid.Row=""" + (++rowIndex) + @""" Margin=""1"" TextWrapping=""Wrap"" Text=""{Binding PlainSummary}"" />";
             xaml += @"<TextBlock Grid.Row=""" + (++rowIndex) + @""" Margin=""2,2,2,20"" TextWrapping=""Wrap"" Text=""{Binding PublishedDate}"" FontStyle=""Italic"" FontSize=""16"" />";
-            
+
             xaml += @"</Grid>";
-            xaml += @"</DataTemplate>";            
-            DataTemplate dt = (DataTemplate)XamlReader.Load(xaml);            
-            return dt;            
+            xaml += @"</DataTemplate>";
+            DataTemplate dt = (DataTemplate)XamlReader.Load(xaml);
+            return dt;
         }
 
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -200,7 +158,7 @@ namespace OnlinerApp
             if ((sender as ListBox).SelectedItem == null)
                 return;
             (App.Current as App).News = (sender as ListBox).SelectedItem as RssItem;
-            ReadNews();
+            NavigateToNewsPage();            
         }
     }
 }

@@ -27,19 +27,35 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,40,12,0">    
-            <StackPanel
+            <ScrollViewer>
+                <StackPanel
                 Orientation="Vertical">
             <toolkit:ToggleSwitch 
                 x:Name="edtComments" 
                 Content="Загружать" 
                 IsChecked="True"  
+                Margin="0"
                 Header="Комментарии к новости"/>
-            <toolkit:ToggleSwitch 
+            <toolkit:ToggleSwitch                 
                 x:Name="edtPicsInStrip" 
                 Content="Показывать" 
                 IsChecked="True"  
+                Margin="0"
                 Header="Изображения в ленте новостей"/>
+                <Border>
+                <StackPanel
+                    Orientation="Vertical">
+                    <TextBlock Text="Загружать разделы:" 
+                               Margin="10,0,0,0"
+                               FontSize="30"/>
+                    <StackPanel
+                        Name="spSections"
+                        Margin="60,0,0,0"
+                        Orientation="Vertical"/>
+                </StackPanel>
+                </Border>
             </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 

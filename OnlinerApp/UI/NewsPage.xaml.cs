@@ -6,6 +6,7 @@ using Microsoft.Phone.Controls;
 using OnlinerApp.Rss;
 using System.Threading;
 using System.Text.RegularExpressions;
+using OnlinerApp.Onliner;
 
 namespace OnlinerApp.UI
 {
@@ -190,10 +191,8 @@ namespace OnlinerApp.UI
                 }
                 #endregion
 
-                #region comments
-                bool CommentsOn = true;
-                AppSettings.TryGetSetting<bool>("CommentsOn", out CommentsOn);
-                if (CommentsOn)
+                #region comments                
+                if (OnlinerSettings.CommentsOn)
                 {
                     HtmlNodeCollection comments = doc.DocumentNode.SelectNodes("//li[@class='b-comments-1__list-item commentListItem']");
                     htmlnews += "<br/><h2>Комментарии</h2>";
