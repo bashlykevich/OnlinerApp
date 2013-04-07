@@ -16,9 +16,10 @@ namespace OnlinerApp.Rss
         /// <param name="summary">The summary.</param>
         /// <param name="publishedDate">The published date.</param>
         /// <param name="url">The URL.</param>
-        public RssItem(string title, string summary, string publishedDate, string url)
+        public RssItem(string title, string summary, string publishedDate, string url, string categories)
         {
             Title = title.Replace("&nbsp;", "") ;
+            Categories = categories;
             Summary = summary;
             //PublishedDate = publishedDate;
             Url = url;
@@ -38,6 +39,20 @@ namespace OnlinerApp.Rss
         /// </summary>
         /// <value>The title.</value>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Categories.
+        /// </summary>
+        /// <value>The title.</value>
+        public string Categories { get; set; }
+
+        public string NewsFooter 
+        { 
+            get
+            {
+                return PublishedDate + " " + Categories;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the summary.

@@ -18,13 +18,13 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>            
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <phone:WebBrowser Name="spNews"
-                          Grid.Row="0"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>        
+        </Grid.RowDefinitions>      
+            <phone:WebBrowser Name="wbNews"
+                               Grid.Row="0"                                                            
                           VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch"/>
+                          HorizontalAlignment="Stretch"/>             
         <helpers:ProgressBarWithText
             Grid.Row="0"
             VerticalAlignment="Center"
@@ -32,8 +32,8 @@
                         Text="Загрузка"
                         ShowProgress="{Binding ElementName=newsPage, Path=ShowProgress}" />
     </Grid>
- 
-    
+
+
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True"
                               Mode="Minimized"

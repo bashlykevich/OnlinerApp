@@ -20,11 +20,11 @@ namespace OnlinerApp
                 SetValue(ShowProgressProperty, value);
                 if (value)
                 {
-                    grMain.Visibility = System.Windows.Visibility.Collapsed;
+                    pMain.Visibility = System.Windows.Visibility.Collapsed;
                 }
                 else
                 {
-                    grMain.Visibility = System.Windows.Visibility.Visible;
+                    pMain.Visibility = System.Windows.Visibility.Visible;
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace OnlinerApp
 
         private void Refresh()
         {
-            grMain.Items.Clear();
+            pMain.Items.Clear();
             foreach (OnlinerSection section in OnlinerSettings.Sections)
             {
                 if (section.IsEnabled)
@@ -54,7 +54,7 @@ namespace OnlinerApp
                     lb.SelectionChanged += new SelectionChangedEventHandler(listbox_SelectionChanged);
 
                     pi.Content = lb;
-                    grMain.Items.Add(pi);
+                    pMain.Items.Add(pi);
 
                     RssService.GetRssItems(section.FeedUrl,
                                     (items) => { lb.ItemsSource = items; },
@@ -62,8 +62,17 @@ namespace OnlinerApp
                                     () => { ShowProgress = false; });
                 }
             }
-            if (grMain.Items.Count == 0)
-                ShowProgress = false;
+            if (pMain.Items.Count == 0)
+            {
+                PivotItem pi = new PivotItem();
+
+                TextBlock tb = new TextBlock();
+                tb.Text = "Нет разделов для отображения";
+                pi.Content = tb;
+                pMain.Items.Add(pi);
+
+                ShowProgress = false;                
+            }
         }
 
         private void StartLoading()
@@ -145,7 +154,7 @@ namespace OnlinerApp
             if (OnlinerSettings.PicsInStripOn)
                 xaml += @"<Image Grid.Row=""" + (++rowIndex) + @""" Margin=""1"" Source=""{Binding ImageUrl}"" Stretch=""Fill""/>";
             xaml += @"<TextBlock Grid.Row=""" + (++rowIndex) + @""" Margin=""1"" TextWrapping=""Wrap"" Text=""{Binding PlainSummary}"" />";
-            xaml += @"<TextBlock Grid.Row=""" + (++rowIndex) + @""" Margin=""2,2,2,20"" TextWrapping=""Wrap"" Text=""{Binding PublishedDate}"" FontStyle=""Italic"" FontSize=""16"" />";
+            xaml += @"<TextBlock Grid.Row=""" + (++rowIndex) + @""" Margin=""2,2,2,30"" TextWrapping=""Wrap"" Text=""{Binding NewsFooter}""/>";
 
             xaml += @"</Grid>";
             xaml += @"</DataTemplate>";

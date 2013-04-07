@@ -72,6 +72,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\News.cs" />
+    <Compile Include="Core\NoConnectionException.cs" />
     <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\ProgressBarWithText.xaml.cs">

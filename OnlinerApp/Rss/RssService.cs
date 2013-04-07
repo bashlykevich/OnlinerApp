@@ -45,7 +45,16 @@ namespace OnlinerApp.Rss
                     SyndicationFeed feeds = SyndicationFeed.Load(response);
                     foreach (SyndicationItem f in feeds.Items)
                     {
-                        RssItem rssItem = new RssItem(f.Title.Text, f.Summary.Text, f.PublishDate.ToString(), f.Links[0].Uri.AbsoluteUri);
+                        #region Categories
+                        
+                        string Categories = String.Empty;
+                        foreach (SyndicationCategory cat in f.Categories)
+                            Categories += "[" + cat.Name + "], ";
+                        if (Categories != String.Empty)
+                            Categories = Categories.Remove(Categories.Length - 2);
+                        #endregion
+                                             
+                        RssItem rssItem = new RssItem(f.Title.Text, f.Summary.Text, f.PublishDate.ToString(), f.Links[0].Uri.AbsoluteUri, Categories);
                         rssItems.Add(rssItem);
                     }
 
