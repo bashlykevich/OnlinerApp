@@ -8,6 +8,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using OnlinerApp.Onliner;
 using OnlinerApp.Core;
+using Microsoft.Phone.Tasks;
 
 namespace OnlinerApp.UI
 {
@@ -77,6 +78,21 @@ namespace OnlinerApp.UI
         {
             ShowProgress = false;
             wbNews.Visibility = System.Windows.Visibility.Visible;            
+        }
+        void GotoBrowser()
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.Uri = new Uri(rssItem.Url);
+            wbt.Show();
+        }
+        private void barBtnGotoBrowser_Click(object sender, EventArgs e)
+        {
+            GotoBrowser();
+        }
+
+        private void barBtnGotoBrowser_Click_1(object sender, EventArgs e)
+        {
+            GotoBrowser();
         }
     }
 }

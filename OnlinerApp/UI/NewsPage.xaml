@@ -38,11 +38,24 @@
         <shell:ApplicationBar IsVisible="True"
                               Mode="Minimized"
                               IsMenuEnabled="True">
-            <shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
+                                            x:Name="btnBarF"                                                                                        
+                                            Text="f"/>
+            <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
+                                            x:Name="btnBarT"                                                                                        
+                                            Text="t"/>
+            <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
+                                            x:Name="btnBarL"                                                                                        
+                                            Text="l"/>            
+            <shell:ApplicationBar.MenuItems>                
                 <shell:ApplicationBarMenuItem 
                     x:Name="barBtnBack"
                     Click="barBtnBack_Click"
-                    Text="Назад"/>                
+                    Text="Назад"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="barBtnGotoBrowser"
+                    Click="barBtnGotoBrowser_Click"
+                    Text="Открыть в браузере"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
