@@ -52,7 +52,7 @@ namespace OnlinerApp.UI
 
         void FinishLoading()
         {
-            this.wbNews.NavigateToString(news.NewsPage);           
+            this.wbNews.NavigateToString(news.NewsPage);
             StatusStringOff();
         }
         void news_Loaded(News news)
@@ -72,12 +72,12 @@ namespace OnlinerApp.UI
         void StatusStringOn()
         {
             ShowProgress = true;
-            wbNews.Visibility = System.Windows.Visibility.Collapsed;            
+            wbNews.Visibility = System.Windows.Visibility.Collapsed;
         }
         void StatusStringOff()
         {
             ShowProgress = false;
-            wbNews.Visibility = System.Windows.Visibility.Visible;            
+            wbNews.Visibility = System.Windows.Visibility.Visible;
         }
         void GotoBrowser()
         {
@@ -90,9 +90,27 @@ namespace OnlinerApp.UI
             GotoBrowser();
         }
 
-        private void barBtnGotoBrowser_Click_1(object sender, EventArgs e)
+        void ShareLink()
         {
-            GotoBrowser();
+            ShareLinkTask shareLinkTask = new ShareLinkTask();
+            shareLinkTask.LinkUri = new Uri(rssItem.Url);
+            shareLinkTask.Message = "Интересная статья на Онлайнере: ";
+            shareLinkTask.Title = "onliner.by";
+            shareLinkTask.Show();
+        }
+        private void barBtnShare_Click(object sender, EventArgs e)
+        {
+            ShareLink();
+        }
+        void Navigate(NavigatingEventArgs e)
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.Uri = e.Uri;
+            wbt.Show();
+        }
+        private void wbNews_Navigating(object sender, NavigatingEventArgs e)
+        {
+            Navigate(e);
         }
     }
 }

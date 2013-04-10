@@ -22,9 +22,11 @@
             <RowDefinition Height="*"/>        
         </Grid.RowDefinitions>      
             <phone:WebBrowser Name="wbNews"
-                               Grid.Row="0"                                                            
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch"/>             
+                              IsScriptEnabled="True"
+                              Navigating="wbNews_Navigating"
+                              Grid.Row="0"                                                            
+                              VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"/>             
         <helpers:ProgressBarWithText
             Grid.Row="0"
             VerticalAlignment="Center"
@@ -37,16 +39,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True"
                               Mode="Minimized"
-                              IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
-                                            x:Name="btnBarF"                                                                                        
-                                            Text="f"/>
-            <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
-                                            x:Name="btnBarT"                                                                                        
-                                            Text="t"/>
-            <shell:ApplicationBarIconButton IconUri="Images\appbar.refresh.rest.png" 
-                                            x:Name="btnBarL"                                                                                        
-                                            Text="l"/>            
+                              IsMenuEnabled="True">            
             <shell:ApplicationBar.MenuItems>                
                 <shell:ApplicationBarMenuItem 
                     x:Name="barBtnBack"
@@ -56,6 +49,10 @@
                     x:Name="barBtnGotoBrowser"
                     Click="barBtnGotoBrowser_Click"
                     Text="Открыть в браузере"/>
+                <shell:ApplicationBarMenuItem 
+                    x:Name="barBtnShare"
+                    Click="barBtnShare_Click"
+                    Text="Поделиться ссылкой"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

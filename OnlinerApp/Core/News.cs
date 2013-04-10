@@ -168,6 +168,7 @@ namespace OnlinerApp.Core
 
         string ConvertVideoToUrl(string src)
         {
+
             string res;
             int frameStart = src.IndexOf("<iframe");
             if (frameStart < 0)
@@ -186,10 +187,16 @@ namespace OnlinerApp.Core
             string videoID = string.Empty;
 
             if (youtubeMatch.Success)
-
+            {
                 videoID = youtubeMatch.Groups[1].Value;
-            res = p1 + "<a href=\"vnd.youtube:" + videoID + "?vndapp=youtube_mobile&vndclient=mv-google&vndel=watch\">[ Смотреть видео ]</a>" + p2;
-            return res;
+                string videoLink = "http://www.youtube.com/watch?v=" + videoID;
+                string a = "<a href=\"" + videoLink + "\">[ Смотреть видео ]</a>";
+                res = p1 + a + p2;
+                return res;
+            }   else
+            {
+                return src;
+            }
         }
         public static string ConvertExtendedAscii(string html)
         {
