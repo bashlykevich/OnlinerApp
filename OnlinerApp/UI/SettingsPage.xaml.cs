@@ -84,9 +84,33 @@ namespace OnlinerApp.UI
             this.edtPicsInStrip.Content = "Не показывать";
             OnlinerSettings.PicsInStripOn = false;
         }
+        bool CanExitSettingsPage()
+        {
+            bool CancelExit = true;
+            int selectedCount = OnlinerSettings.Sections.Count(x => (x.IsEnabled));
+            if (selectedCount > 0)
+            {
+                CancelExit = false;
+            }
+            else
+            {
+                CancelExit = true;
+                MessageBox.Show("Выберите хотя бы один раздел.");
+            }
+            return CancelExit;
+        }
         private void barBtnBack_Click(object sender, EventArgs e)
         {
-            this.NavigationService.GoBack();
+            bool CancelExit = CanExitSettingsPage();
+            if (!CancelExit)
+            {
+                NavigationService.GoBack();
+            }
+        }
+
+        private void PhoneApplicationPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = CanExitSettingsPage();
         }
     }
 }
