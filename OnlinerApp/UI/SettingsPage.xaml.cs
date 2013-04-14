@@ -48,8 +48,31 @@ namespace OnlinerApp.UI
                 spSections.Children.Add(ts);
             }
             #endregion
+
+            InitializeTitleFontSizeList();
+            InitializeSummaryFontSizeList();
         }
         
+        void InitializeTitleFontSizeList()
+        {
+            edtTitleFontSize.ItemsSource = OnlinerSettings.Fonts;
+            edtTitleFontSize.SelectedItem = OnlinerSettings.TitleFontSize;
+            edtTitleFontSize.SelectionChanged += new SelectionChangedEventHandler(edtTitleFontSize_SelectionChanged);                                    
+        }
+        void InitializeSummaryFontSizeList()
+        {
+            edtSummaryFontSize.ItemsSource = OnlinerSettings.Fonts;
+            edtSummaryFontSize.SelectedItem = OnlinerSettings.SummaryFontSize;
+            edtSummaryFontSize.SelectionChanged += new SelectionChangedEventHandler(edtSummaryFontSize_SelectionChanged);
+        }
+        void edtTitleFontSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            OnlinerSettings.TitleFontSize = (int)edtTitleFontSize.SelectedItem;
+        }
+        void edtSummaryFontSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            OnlinerSettings.SummaryFontSize = (int)edtSummaryFontSize.SelectedItem;
+        }
         void section_on(object sender, RoutedEventArgs e)
         {
             ToggleSwitch ts = sender as ToggleSwitch;

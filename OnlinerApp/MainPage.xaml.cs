@@ -150,11 +150,11 @@ namespace OnlinerApp
             xaml += @"</Grid.RowDefinitions>";
 
             int rowIndex = 0;
-            xaml += @"<TextBlock Grid.Row=""0"" Margin=""2"" TextWrapping=""Wrap"" Text=""{Binding Title}"" FontWeight=""Bold"" FontSize=""24"" />";
+            xaml += "<TextBlock Grid.Row=\"0\" Margin=\"2\" TextWrapping=\"Wrap\" Text=\"{Binding Title}\" FontWeight=\"Bold\" FontSize=\"" + OnlinerSettings.TitleFontSize + "\" />";
             if (OnlinerSettings.PicsInStripOn)
                 xaml += @"<Image Grid.Row=""" + (++rowIndex) + @""" Margin=""1"" Source=""{Binding ImageUrl}"" Stretch=""Fill""/>";
-            xaml += @"<TextBlock Grid.Row=""" + (++rowIndex) + @""" Margin=""1"" TextWrapping=""Wrap"" Text=""{Binding PlainSummary}"" />";
-            xaml += @"<TextBlock Grid.Row=""" + (++rowIndex) + @""" Margin=""2,2,2,30"" TextWrapping=""Wrap"" Text=""{Binding NewsFooter}""/>";
+            xaml += "<TextBlock Grid.Row=\"" + (++rowIndex) + "\" Margin=\"1\" TextWrapping=\"Wrap\" Text=\"{Binding PlainSummary}\" FontSize=\"" + OnlinerSettings.SummaryFontSize + "\" />";
+            xaml += "<TextBlock Grid.Row=\"" + (++rowIndex) + "\" Margin=\"2,2,2,30\" TextWrapping=\"Wrap\" Text=\"{Binding NewsFooter}\" FontSize=\"" + OnlinerSettings.SummaryFontSize + "\" />";
 
             xaml += @"</Grid>";
             xaml += @"</DataTemplate>";

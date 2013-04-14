@@ -14,6 +14,7 @@ namespace OnlinerApp.Onliner
 {
     public static class OnlinerSettings
     {
+        public static int[] Fonts = {16, 20, 24, 28, 32, 36, 40};
         public static bool PicsInStripOn
         {
             get
@@ -43,6 +44,38 @@ namespace OnlinerApp.Onliner
             set
             {
                 AppSettings.StoreSetting<bool>("CommentsOn", value);
+            }
+        }
+
+        public static int TitleFontSize
+        {
+            get
+            {
+                int TitleFontSize;
+                if (AppSettings.TryGetSetting<int>("TitleFontSize", out TitleFontSize))
+                    return TitleFontSize;
+                else
+                    return 24;
+            }
+            set
+            {
+                AppSettings.StoreSetting<int>("TitleFontSize", value);
+            }
+        }
+
+        public static int SummaryFontSize
+        {
+            get
+            {
+                int SummaryFontSize;
+                if (AppSettings.TryGetSetting<int>("SummaryFontSize", out SummaryFontSize))
+                    return SummaryFontSize;
+                else
+                    return 16;
+            }
+            set
+            {
+                AppSettings.StoreSetting<int>("SummaryFontSize", value);
             }
         }
 
